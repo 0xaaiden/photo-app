@@ -1,0 +1,26 @@
+
+        <aside class="right-side">
+            <div class="fixed">
+                <section class="user-bar">
+                    <img src="{{user.profile_url}}" alt="Avatar" style="border-radius: 50%; width: 60px; height: 60px; vertical-align: middle;">
+                    <span class="username-text">{{user.username}}</span>
+                </section>
+                <section>
+                    <h3 style="margin-bottom: 20px; color: dimgrey">Suggestions for you</h3>
+                    {% for item in suggestions %}
+                    <div class="card">
+                        <img src="{{item.image_url}}" alt="profile pic for {{item.username}}" style="border-radius: 50%; width: 40px; height: 40px; vertical-align: middle;">
+                        <div class="sugg-text">
+                            <span class="username-sugg">{{item.username}}</span><br>
+                            <span style="color: dimgrey;">suggested for you</span>
+                        </div>
+
+                        <a href="{{item.profile_url}}" style="vertical-align: middle;">follow</a>
+                    </div>
+                    {% endfor %}
+                </section>
+                <section class="recs">
+
+                </section>
+            </div>
+        </aside>
