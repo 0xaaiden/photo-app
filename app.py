@@ -15,16 +15,6 @@ def home():
         suggestions=fake_data.generate_suggestions(n=7)
     )
 
-@app.route('/test')
-def test():
-    current_user = fake_data.generate_user()
-    return render_template(
-        'index.html', 
-        user=current_user,
-        posts=fake_data.generate_posts(n=8),
-        stories=fake_data.generate_stories(n=6),
-        suggestions=fake_data.generate_suggestions(n=7)
-    )
 
 #####################################
 # Just to get you thinking about    #
