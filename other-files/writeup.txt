@@ -1,0 +1,22 @@
+Accessibility analysis
+
+* 		What corrections did you have to make?
+-Added form labels for the “add comment” input form
+-Corrected the contrast errors for the “View comments” text, and Timestamp texts by choosing a darker blue color
+-Changed the alt text for stories to show the username of the profiles when the images don’t load
+-Fixed alt texts for the posts by showing the user who posted the post when the post image fails to load
+-Fixed alt texts for suggestions by showing the username when the profile picture doesn't load
+
+* 		Given that the photos and captions rely on user-generated content, do you think that the accessibility problems are all solvable? Why or why not?
+Not really since user-generated content depends on whether the users decide to add alternative text to their image posts or not. For example if a user doesn’t add alt text to his post image, there’s no way of making it fully accessible. Another way would be to use techniques such as ML to try to guess what’s in the image to save it as alternative text.
+
+* 		Do you think your website is usable if you turn off the CSS? Why or why not?
+if we turn off the CSS, my website will show as an old website, like the ones we had back in 90s. Apart from that, the browser will show the alternative text for images, and the layout should be displayed vertically and shouldn’t pose a problem to screen readers.
+
+* 		Do you think your website is usable if you turn off the images? Why or why not?
+My website is  usable with images turned off. It will describe the images by showing their alternative texts. People with screen readers will able to get a general sense of what the images are supposed to show.
+
+* 		Submit a screenshot of your Wave report
+https://i.imgur.com/nr6pvJQ.png (Errors are from missing labels for the comment form) - it gets fixed when we configure correctly the form to submit the comments)
+
+
