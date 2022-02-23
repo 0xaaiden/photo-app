@@ -346,15 +346,17 @@ const showPostDetail = ev =>{
             </div>`; 
             document.querySelector("#modal-container").innerHTML = html;
             document.querySelector("#focus_on_me").focus();
-            window.onkeypress = keypress;
-            function keypress(event) {
-                if (event.keyCode == 27) {
-                    document.querySelector("#modal-container").innerHTML = "";
-                    destroy(postid);  
-                }}
+            document.onkeydown = function(evt) {
+                evt = evt || window.event;
+                if (evt.keyCode == 27) {
+                    document.getElementById('focus_on_me').click();
+
+                }
+            };
         })
     
 }
+
 
 const displayComments = (comments, postID) =>
 {
