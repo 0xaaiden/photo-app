@@ -241,7 +241,7 @@ const post2Html = post => {
     <div id="${post.id}">
     <section class="card">
     <div class="header">
-        <h3>${ post.user.username } ${ post.current_user_bookmark_id } ${ post.current_user_like_id }</h3>
+        <h3>${ post.user.username }</h3>
         <i class="fa fa-dots"></i>
     </div>
     <img src="${ post.image_url }" alt="Image posted by ${ post.user.username }" width="300" height="300">
