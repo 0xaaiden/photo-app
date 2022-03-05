@@ -16,7 +16,7 @@ def modify_system_path():
 
 modify_system_path()
 
-root_url = 'http://127.0.0.1:5000'
+root_url = 'https://photo-app-demo123.herokuapp.com'
 # root_url = 'https://photo-app-demo.herokuapp.com/'
 
 connection_string = os.environ.get('DB_URL')
