@@ -91,8 +91,8 @@ class TestFollowingListEndpoint(unittest.TestCase):
             'user_id': 999999,
         }
         response = requests.post(root_url + '/api/following', json=body)
-        # print(response.text)
-        self.assertEqual(response.status_code, 400)
+        #print(response.text)
+        self.assertEqual(response.status_code, 404)
     
     def test_following_post_missing_user_id_400(self):
         response = requests.post(root_url + '/api/following', json={})

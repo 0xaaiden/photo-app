@@ -4,7 +4,7 @@ from typing import Dict
 from flask import Response, request
 from views import can_view_post
 from models import Bookmark, LikePost
-
+import requests 
 # # Decorator Format:
 # # https://realpython.com/primer-on-python-decorators/
 
@@ -182,6 +182,7 @@ def handle_db_insert_error_like(func):
     def wrapper(self, *args, **kwargs):
         try:
             return func(self, *args, **kwargs)
+            print("pass3")
         except:
             import sys
             db_message = str(sys.exc_info()[1]) # stores DB error message
@@ -189,8 +190,8 @@ def handle_db_insert_error_like(func):
             message = 'Database Insert error. Make sure your post data is valid.'
             post_data= {}
             print(args)
-            post_data["post_id"] = args[0]
-            post_data['user_id'] = self.current_user.id
+            # post_data["post_id"] = args[0]
+            # post_data['user_id'] = self.current_user.id
             response_obj = {
                 'message': message, 
                 'db_message': db_message,
@@ -199,6 +200,21 @@ def handle_db_insert_error_like(func):
             # if int(post_data['post_id']) and not(can_view_post(post_data['post_id'], post_data['user_id'])):
             #     return Response(json.dumps(response_obj), mimetype="application/json", status=404)
             return Response(json.dumps(response_obj), mimetype="application/json", status=400)
+    return wrapper
+
+def int_out_of_bounds(func):
+    def wrapper(self):
+        body = request.get_json()    
+        id = body.get("user_id")
+        print(id)
+        try:
+            print(id)
+            if int(id) > 10000:
+                return Response(json.dumps({'message': '{0} must be less than 10000.'.format(id)}), mimetype="application/json", status=404)
+            else:
+                return func(self)
+        except:
+            return func(self)
     return wrapper
 
 def handle_db_insert_error(func):
@@ -211,7 +227,6 @@ def handle_db_insert_error(func):
             print(db_message)                   # logs it to the console
             message = 'Database Insert error. Make sure your post data is valid.'
             post_data = request.get_json()
-            post_data['user_id'] = self.current_user.id
             response_obj = {
                 'message': message, 
                 'db_message': db_message,
@@ -249,6 +264,7 @@ def secure_bookmark(endpoint_function):
         body = request.get_json()
         post_id = body.get('post_id')
         if can_view_post(post_id, self.current_user):
+            print("passcheck2")
             return endpoint_function(self)
         else:
             response_obj = {
@@ -296,6 +312,7 @@ def is_valid_int_bk(endpoint_function):
             body = request.get_json()
             post_id = body.get('post_id')
             post_id = int(post_id)
+            print("pass1")
         except:
             response_obj = {
                 'message': 'Invalid post_id={0}'.format(post_id)

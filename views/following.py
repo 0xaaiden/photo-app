@@ -2,7 +2,8 @@ from flask import Response, request
 from flask_restful import Resource
 from models import Following, User, db
 import json
-from my_decorators import handle_db_insert_error, is_valid_int_following, is_valid_int_delete;
+from my_decorators import handle_db_insert_error,int_out_of_bounds, is_valid_int_following, is_valid_int_delete;
+import flask_jwt_extended
 
 def get_path():
     return request.host_url + 'api/posts/'
@@ -10,9 +11,9 @@ def get_path():
 class FollowingListEndpoint(Resource):
     def __init__(self, current_user):
         self.current_user = current_user
-    
+    @flask_jwt_extended.jwt_required()
     def get(self):
-        following = Following.query.filter_by(user_id = 12)
+        following = Following.query.filter_by(user_id = self.current_user.id)
         
         data = [
             item.to_dict_following() for item in following
@@ -20,6 +21,8 @@ class FollowingListEndpoint(Resource):
         return Response(json.dumps(data), mimetype="application/json", status=200)
 
     
+    @flask_jwt_extended.jwt_required()
+    @int_out_of_bounds
     @handle_db_insert_error
     def post(self):
         body = request.get_json()    
@@ -34,6 +37,7 @@ class FollowingListEndpoint(Resource):
 class FollowingDetailEndpoint(Resource):
     def __init__(self, current_user):
         self.current_user = current_user
+    @flask_jwt_extended.jwt_required()
     @is_valid_int_delete
     def delete(self, id):
         try:
@@ -60,11 +64,11 @@ def initialize_routes(api):
         FollowingListEndpoint, 
         '/api/following', 
         '/api/following/', 
-        resource_class_kwargs={'current_user': api.app.current_user}
+        resource_class_kwargs={'current_user': flask_jwt_extended.current_user}
     )
     api.add_resource(
         FollowingDetailEndpoint, 
         '/api/following/<id>', 
         '/api/following/<id>/', 
-        resource_class_kwargs={'current_user': api.app.current_user}
+        resource_class_kwargs={'current_user': flask_jwt_extended.current_user}
     )

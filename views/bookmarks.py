@@ -4,17 +4,19 @@ from models import Bookmark, db
 import json
 from . import can_view_post
 from my_decorators import is_valid_int_bk, is_valid_int_delete, secure_bookmark, handle_db_insert_error, check_ownership
+import flask_jwt_extended
 class BookmarksListEndpoint(Resource):
 
     def __init__(self, current_user):
         self.current_user = current_user
-    
+    @flask_jwt_extended.jwt_required()
     def get(self):
-        bookmarks = Bookmark.query.filter_by(user_id = 12)
+        bookmarks = Bookmark.query.filter_by(user_id = self.current_user.id)
         
         data = [ bookmark.to_dict() for bookmark in bookmarks]
         return Response(json.dumps(data), mimetype="application/json", status=200)
 
+    @flask_jwt_extended.jwt_required()
     @is_valid_int_bk
     @secure_bookmark
     @handle_db_insert_error
@@ -33,8 +35,10 @@ class BookmarkDetailEndpoint(Resource):
     def __init__(self, current_user):
         self.current_user = current_user
     
+    @flask_jwt_extended.jwt_required()
     @is_valid_int_delete
     @check_ownership
+
     def delete(self, id):
         bkmark = Bookmark.query.get(id)
   
@@ -54,12 +58,12 @@ def initialize_routes(api):
         BookmarksListEndpoint, 
         '/api/bookmarks', 
         '/api/bookmarks/', 
-        resource_class_kwargs={'current_user': api.app.current_user}
+        resource_class_kwargs={'current_user': flask_jwt_extended.current_user}
     )
 
     api.add_resource(
         BookmarkDetailEndpoint, 
         '/api/bookmarks/<id>', 
         '/api/bookmarks/<id>',
-        resource_class_kwargs={'current_user': api.app.current_user}
+        resource_class_kwargs={'current_user': flask_jwt_extended.current_user}
     )

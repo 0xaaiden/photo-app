@@ -1,0 +1,12 @@
+<script>
+    fetch("http://127.0.0.1:5000/api/posts/?limit=3", {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': 'b4023c74-3d8d-4f5b-93cc-cb0b7d48f67c'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+    });</script>
