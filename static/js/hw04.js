@@ -456,7 +456,7 @@ const renderchatbutton = () => {
             const csrf_access_token = getCookie('csrf_access_token');
             
             const login_chat= `
-                <button class="pushable" id="chatserver" data-user-id="${id}" data-username="${username}" value="ws://localhost:8081" onclick="initializeConnection(event)">
+                <button class="pushable" id="chatserver" data-user-id="${id}" data-username="${username}" value="wss://websockets-echo-aziz.herokuapp.com" onclick="initializeConnection(event)">
                 <span id="chatbuttontext" class="front">
                 Chat
                 </span> 
