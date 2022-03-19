@@ -1,3 +1,4 @@
+
 const getCookie = key => {
     let name = key + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
@@ -441,7 +442,48 @@ const displayPosts = () => {
             document.querySelector('#posts').innerHTML = html;
         })
 };
+const renderchatbutton = () => {
+    fetch("/api/profile", {
+        method: 'GET',
+        headers: {
+            'X-CSRF-TOKEN': getCookie('csrf_access_token')
+         }     
+        })
+        .then(response => response.json())
+        .then(user => {
+            const id = user.id;
+            const username = user.username;
+            const csrf_access_token = getCookie('csrf_access_token');
+            
+            const login_chat= `
+                <button class="pushable" id="chatserver" data-user-id="${id}" data-username="${username}" value="ws://localhost:8081" onclick="initializeConnection(event)">
+                <span id="chatbuttontext" class="front">
+                Chat
+                </span> 
+                </button>`;
+            document.querySelector("#login_chat").innerHTML = login_chat;
+            
+        })
 
+    };
+
+
+const getuserinf = () => {
+    fetch("/api/profile", {
+        method: 'GET',
+        headers: {
+            'X-CSRF-TOKEN': getCookie('csrf_access_token')
+         }     
+        })
+        .then(response => response.json())
+        .then(user => {
+            const id = user.id;
+            const username = user.username;
+            const csrf_access_token = getCookie('csrf_access_token');
+            return JSON.stringify({"id":id, "username": username, "csrf_access_token": csrf_access_token});
+        })
+
+    };
 const displaySugg = () => {
     fetch('/api/suggestions', {
             method: 'GET',
@@ -451,12 +493,14 @@ const displaySugg = () => {
         })
         .then(response => response.json())
         .then(suggs => {
+            const chat_button = renderchatbutton();
             const user_sugg = renderuserprofile();
             const html = suggs.map(sugg2html).join('\n');
             console.log(suggs);
             console.log('hi');
             document.querySelector('#user_sugg').innerHTML = user_sugg;
             document.querySelector('#suggestion-users').innerHTML = html;
+            document.querySelector('#login_chat').innerHTML = chat_button;
             
         })
 };

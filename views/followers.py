@@ -13,7 +13,6 @@ class FollowerListEndpoint(Resource):
     @flask_jwt_extended.jwt_required()
     def get(self):
         follower = Following.query.filter_by(following_id = self.current_user.id)
-        
         data = [
             item.to_dict_follower() for item in follower
         ]

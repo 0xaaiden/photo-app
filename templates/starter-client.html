@@ -5,17 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
     <link rel="stylesheet" href="/static/css/starter-client.css">
-
+    <link rel="stylesheet" href="/static/css/chatbox.css">
     <!-- client-side scripts -->
     <script>let user_username = "{{user.username}}";
-    let user_profile_url = "{{user.thumb_url}}";</script>
+    let user_profile_url = "{{user.thumb_url}}";
+    let access_token = "{{access_token}}"</script>
     <script lang="text/javascript" src="/static/js/hw04.js" defer></script>
+    <script lang="text/javascript" src="/static/js/chatbox.js" defer></script>
+    <script lang="text/javascript" src="/static/js/wschat.js" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js" defer></script>
+
+    <script lang="text/javascript" src="/static/js/script.js" defer></script>
 </head>
 <body>
     <!-- Nav Bar still rendered via server-side template -->
     {% include 'includes/navbar.html'  %}
-
+    
     <aside>
+        <div id="login_chat"></div>
         <header id="user_sugg">
             <!-- user profile rendered client-side -->
         </header>
@@ -28,7 +35,7 @@
             </div>
         </div>
     </aside>
-
+    <div id="chatboxid"></div>
     <main class="content">
         
         <header class="stories">
