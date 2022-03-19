@@ -357,3 +357,27 @@ a{
 	font: inherit;
 	cursor: pointer;
 }
+
+.pushable {
+    background: grey;
+    border-radius: 12px;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    outline-offset: 4px;
+    margin-top:20px;
+    width: 25vw;
+}
+.front {
+    display: block;
+    padding: 12px 42px;
+    border-radius: 12px;
+    font-size: 1.25rem;
+    background: white;
+    color: green;
+    transform: translateY(-6px);
+}
+
+.pushable:active .front {
+    transform: translateY(-2px);
+}

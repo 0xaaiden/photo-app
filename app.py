@@ -7,7 +7,7 @@ from flask import render_template
 import os
 from models import db, User, ApiNavigator
 from views import bookmarks, comments, followers, following, \
-    posts, profile, stories, suggestions, post_likes
+    posts, profile, stories, suggestions, post_likes, contacts
 import flask_jwt_extended  
 import decorators
 
@@ -19,6 +19,7 @@ app.config["JWT_SECRET_KEY"] = os.environ.get('JWT_SECRET')
 # expire access token in 10 seconds
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = 2000
 app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies"]
+app.config["SESSION_COOKIE_HTTPONLY"] = False
 app.config["JWT_COOKIE_SECURE"] = False
 jwt = flask_jwt_extended.JWTManager(app)
 
@@ -60,6 +61,8 @@ stories.initialize_routes(api)
 suggestions.initialize_routes(api)
 authentication.initialize_routes(app)
 token.initialize_routes(api)
+contacts.initialize_routes(api)
+
 
 
 
@@ -68,7 +71,8 @@ token.initialize_routes(api)
 @decorators.jwt_or_login
 def home():
     return render_template(
-        'starter-client.html', 
+        'starter-client.html',
+        access_token = request.cookies.get('access_token_cookie'), 
         user=flask_jwt_extended.current_user
     )
 
